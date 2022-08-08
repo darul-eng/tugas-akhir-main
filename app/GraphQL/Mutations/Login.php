@@ -25,6 +25,6 @@ final class Login
             ]);
         }
 
-        return $user->createToken($args['email'])->plainTextToken;
+        return $user->createToken('tokenGraphQL')->plainTextToken;
     }
 }
