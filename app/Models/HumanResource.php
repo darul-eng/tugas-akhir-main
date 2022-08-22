@@ -18,4 +18,9 @@ class HumanResource extends Model
     {
         return $this->hasMany(FormalEducation::class, 'id_sdm', 'id_sdm');
     }
+
+    public function dokumen(): HasMany
+    {
+        return $this->hasMany(Dokumen::class, 'id_sdm', 'id_sdm');
+    }
 }

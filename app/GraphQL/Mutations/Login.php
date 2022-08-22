@@ -4,27 +4,34 @@ namespace App\GraphQL\Mutations;
 
 use Error;
 use App\Models\User;
+use Illuminate\Contracts\Session\Session;
+use Softonic\GraphQL\ClientBuilder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 
 final class Login
 {
-    /**
-     * @param  null  $_
-     * @param  array{}  $args
-     */
-    public function __invoke($_, array $args): String
+    public function login($_, array $args): String
     {
+        $client = ClientBuilder::build('http://127.0.0.1:8001/graphql');
 
-        $user = User::where('email', $args['email'])->first();
-
-        if (!$user || !Hash::check($args['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+        $query = '
+        mutation login($email: String!, $password: String!){
+            login(email: $email, password: $password)
         }
+        ';
 
-        return $user->createToken('tokenGraphQL')->plainTextToken;
+        $variables = [
+            'email' => $args['email'],
+            'password' => $args['password']
+        ];
+
+        $response = $client->query($query, $variables);
+        $result = $response->getData();
+
+        return $result['login'];
     }
 }

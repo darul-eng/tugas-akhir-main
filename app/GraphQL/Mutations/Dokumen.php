@@ -1,15 +1,16 @@
 <?php
 
-namespace App\GraphQL\Queries;
+namespace App\GraphQL\Mutations;
 
+use Illuminate\Support\Str;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-use App\Models\HumanResource;
 use App\Repositories\AuthSister;
+use App\Models\Dokumen as Model;
 
-final class SDM
+final class Dokumen
 {
     protected $authSister;
 
@@ -18,7 +19,7 @@ final class SDM
         $this->authSister = new AuthSister;
     }
 
-    public function SumberDayaManusia($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public function all($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if (array_key_exists('HTTP_AUTHORIZATION', $context->request()->server())) {
             $arrToken = explode(' ', $context->request()->server()['HTTP_AUTHORIZATION']);
@@ -26,7 +27,8 @@ final class SDM
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                return HumanResource::all();
+                $dokumen = Model::all();
+                return $dokumen;
             } else {
                 return throw new HttpException(401, 'Unauthorize');
             }
@@ -35,7 +37,7 @@ final class SDM
         }
     }
 
-    public function sdmByID($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public function uploadDokumen($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?string
     {
         if (array_key_exists('HTTP_AUTHORIZATION', $context->request()->server())) {
             $arrToken = explode(' ', $context->request()->server()['HTTP_AUTHORIZATION']);
@@ -43,7 +45,15 @@ final class SDM
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                return HumanResource::where('id_sdm', $args['id_sdm'])->first();
+                $file = $args['file'];
+                $path = $file->storePublicly('public/dokumens');
+                Model::create([
+                    'id_dokumen' => Str::uuid(),
+                    'id_sdm' => $args['id_sdm'],
+                    'dokumen' => $path
+                ]);
+
+                return $path;
             } else {
                 return throw new HttpException(401, 'Unauthorize');
             }
@@ -51,4 +61,5 @@ final class SDM
             return throw new HttpException(401, 'Unauthorize');
         }
     }
+
 }

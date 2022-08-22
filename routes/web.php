@@ -29,36 +29,45 @@ Route::get('/test', function(){
     // $response = $response->json();
     // dd($response['token']);
 
-    $login = '
-        mutation{
-            login(email: "test@example.com", password: "password")
-        }';
+    // env('API_KEY' , 'coba');
+    config(['api.api_key' => 'tes']);
 
-    $loginResponse = Http::withHeaders([
-        'Content-Type' => 'application/json',
-    ])->post('http://127.0.0.1:8001/graphql', [
-        'query' => $login
-    ]);
+    dd(config('api.api_key'));
 
-    $loginResponse = $loginResponse->json();
-    $token = $loginResponse['data']['login'];
+    // env('API_KEY', 'coba');
+    // dd(env('API_KEY'));
+        // dd(session('tesToken'));
+    // $login = '
+    //     mutation{
+    //         login(email: "test@example.com", password: "password")
+    //     }';
 
-    $me = '
-            query{
-                me{
-                    name,
-                    email
-                    }
-                }';
+    // $loginResponse = Http::withHeaders([
+    //     'Content-Type' => 'application/json',
+    // ])->post('http://127.0.0.1:8001/graphql', [
+    //     'query' => $login
+    // ]);
 
-    $response = Http::withHeaders([
-        'Content-Type' => 'application/json',
-        'Authorization' => "Bearer $token"
-    ])->post('http://127.0.0.1:8001/graphql', [
-        'query' => $me
-    ]);
+    // $loginResponse = $loginResponse->json();
+    // $token = $loginResponse['data']['login'];
 
-    $response = $response->json();
-    dd($response['data']['me']);
+    // $me = '
+    //         query{
+    //             me{
+    //                 name,
+    //                 email
+    //                 }
+    //             }';
+
+    // $response = Http::withHeaders([
+    //     'Content-Type' => 'application/json',
+    //     'Authorization' => "Bearer $token"
+    // ])->post('http://127.0.0.1:8001/graphql', [
+    //     'query' => $me
+    // ]);
+
+    // dd($response->getContent());
+    // $response = $response->json();
+    // dd($response['data']['me']);
     // dd($response['data']['login']);
 });

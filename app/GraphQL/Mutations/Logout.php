@@ -16,7 +16,7 @@ final class Logout
     {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
-        
+
         return $user;
     }
 }

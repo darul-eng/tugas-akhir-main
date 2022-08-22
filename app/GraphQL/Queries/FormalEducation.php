@@ -6,10 +6,10 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-use App\Models\HumanResource;
+use App\Models\FormalEducation as ModelsFormalEducation;
 use App\Repositories\AuthSister;
 
-final class SDM
+final class FormalEducation
 {
     protected $authSister;
 
@@ -18,7 +18,7 @@ final class SDM
         $this->authSister = new AuthSister;
     }
 
-    public function SumberDayaManusia($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public function all($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if (array_key_exists('HTTP_AUTHORIZATION', $context->request()->server())) {
             $arrToken = explode(' ', $context->request()->server()['HTTP_AUTHORIZATION']);
@@ -26,7 +26,7 @@ final class SDM
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                return HumanResource::all();
+                return ModelsFormalEducation::all();
             } else {
                 return throw new HttpException(401, 'Unauthorize');
             }
@@ -35,7 +35,7 @@ final class SDM
         }
     }
 
-    public function sdmByID($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public function byID($_, array $args, GraphQLContext $context)
     {
         if (array_key_exists('HTTP_AUTHORIZATION', $context->request()->server())) {
             $arrToken = explode(' ', $context->request()->server()['HTTP_AUTHORIZATION']);
@@ -43,11 +43,11 @@ final class SDM
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                return HumanResource::where('id_sdm', $args['id_sdm'])->first();
+                return ModelsFormalEducation::where('id_sdm', $args['id_sdm'])->get();
             } else {
                 return throw new HttpException(401, 'Unauthorize');
             }
-        } else {
+        }else{
             return throw new HttpException(401, 'Unauthorize');
         }
     }
