@@ -1,8 +1,8 @@
 extend type Mutation{
-    login(email: String!, password: String!): String! @field(resolver: "Login@login")
-    # logout: User @guard
+    login(email: String!, password: String!): String! @field(resolver: "Authentication@login")
+    logout: User @field(resolver: "Authentication@logout")
 }
 
-# extend type Query{
-#     me: User! @auth @guard
-# }
+extend type Query{
+    me: User! @auth @guard
+}
