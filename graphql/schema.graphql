@@ -46,4 +46,10 @@ type Dokumen {
     dokumen: String
 }
 
+type User {
+    id: ID
+    nama: String
+    email: String
+}
+
 #import auth.graphql
