@@ -37,6 +37,24 @@ final class Dokumen
         }
     }
 
+    public function byIDSdm($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        if (array_key_exists('HTTP_AUTHORIZATION', $context->request()->server())) {
+            $arrToken = explode(' ', $context->request()->server()['HTTP_AUTHORIZATION']);
+
+            $valid = $this->authSister->verifyToken($arrToken[1]);
+
+            if ($valid) {
+                $dokumen = Model::where('id_sdm', $args['id_sdm'])->get();
+                return $dokumen;
+            } else {
+                return throw new HttpException(401, 'Unauthorize');
+            }
+        } else {
+            return throw new HttpException(401, 'Unauthorize');
+        }
+    }
+
     public function uploadDokumen($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?string
     {
         if (array_key_exists('HTTP_AUTHORIZATION', $context->request()->server())) {

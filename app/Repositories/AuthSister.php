@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Softonic\GraphQL\ClientBuilder;
+use Illuminate\Support\Facades\Http;
 
 class AuthSister
 {
@@ -25,6 +26,18 @@ class AuthSister
         // dd($response);
 
         $result = $response->getData();
+
+        return $result['verify'];
+    }
+
+    public function verifyTokenRest(string $token)
+    {
+        $response = Http::post('http://127.0.0.1:8001/api/verify', [
+            'token' => $token,
+        ]);
+
+
+        $result = $response->json();
 
         return $result['verify'];
     }
