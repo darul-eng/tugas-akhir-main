@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\DokumenController;
-use App\Http\Controllers\FormalEducationController;
 use Illuminate\Http\Request;
+use App\Models\HumanResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\HumanResourceController;
+use App\Http\Controllers\FormalEducationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,14 @@ Route::get('pendidikanFormal', [FormalEducationController::class, 'getAll']);
 Route::get('pendidikanFormal/{id_sdm}', [FormalEducationController::class, 'getByIDSdm']);
 Route::get('dokumen/{id_sdm}', [DokumenController::class, 'getByIDSdm']);
 Route::post('dokumen/{id_sdm}', [DokumenController::class, 'uploadDokumenSDM']);
+
+Route::get('tes-conncetion', function(){
+    $response = HumanResource::all();
+
+    $res = [
+        'success' => true,
+        'message' => 'Success',
+        'datas' => $response,
+    ];
+    return response()->json($res, 200);
+});
