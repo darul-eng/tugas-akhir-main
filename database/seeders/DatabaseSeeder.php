@@ -46,9 +46,9 @@ class DatabaseSeeder extends Seeder
         \App\Models\FormalEducation::factory(3)->create([
             'id_sdm' => "1e345d09-a23f-35be-a8af-ccf637553b19",
         ]);
-        \App\Models\User::factory()->create([
-            'name' => 'Tester',
-            'email' => 'test@gmail.com',
-        ]);
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Tester',
+        //     'email' => 'test@gmail.com',
+        // ]);
     }
 }
