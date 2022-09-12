@@ -11,7 +11,8 @@ type Query {
     pendidikanFormal(id_sdm: String!): [FormalEducation]
         @field(resolver: "FormalEducation@byID")
 
-    dokumen: [Dokumen] @field(resolver: "\\App\\GraphQL\\Mutations\\Dokumen@all")
+    dokumens: [Dokumen] @field(resolver: "\\App\\GraphQL\\Mutations\\Dokumen@all")
+    dokumen(id_sdm: String!): [Dokumen] @field(resolver: "\\App\\GraphQL\\Mutations\\Dokumen@byIDSdm")
 }
 
 type Mutation {
