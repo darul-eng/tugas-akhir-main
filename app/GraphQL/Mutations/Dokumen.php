@@ -65,6 +65,7 @@ final class Dokumen
             if ($valid) {
                 $file = $args['file'];
                 $path = $file->storePublicly('public/dokumens');
+                $path = str_replace('public', 'storage', $path);
                 Model::create([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $args['id_sdm'],

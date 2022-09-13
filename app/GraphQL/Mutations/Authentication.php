@@ -34,9 +34,13 @@ final class Authentication
         ];
 
         $response = $client->query($query, $variables);
-        $result = $response->getData();
-
-        return $result['login'];
+        if (property_exists($response, 'errors') && $response->getErrors() != []) {
+            return throw new HttpException(401, 'The provided credentials are incorrect.');
+        }else{
+            $result = $response->getData();
+            return $result['login'];
+            // return handleResponse($result['login'], 'Success');
+        }
     }
 
     public function logout($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
