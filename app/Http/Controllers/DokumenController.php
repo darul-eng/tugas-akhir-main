@@ -43,10 +43,11 @@ class DokumenController extends Controller
                 $file = $request->file;
 
                 $path = $file->storePublicly('public/rest');
+                $path = str_replace('public', 'storage', $path);
                 Dokumen::create([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $id_sdm,
-                    'dokumen' => $path
+                    'dokumen' => $path,
                 ]);
 
                 return handleResponse(['path' => $path], 'success');

@@ -20,7 +20,7 @@ final class Authentication
 
     public function login($_, array $args): String
     {
-        $client = ClientBuilder::build('http://10.0.1.134/graphql');
+        $client = ClientBuilder::build('http://127.0.0.1:8001/graphql');
 
         $query = '
         mutation login($email: String!, $password: String!){
@@ -34,9 +34,14 @@ final class Authentication
         ];
 
         $response = $client->query($query, $variables);
-        $result = $response->getData();
 
-        return $result['login'];
+        if (property_exists($response, 'errors')) {
+            return throw new HttpException(401, $response->getErrors()[0]['message']);
+        }else{
+            $result = $response->getData();
+            return $result['login'];
+            // return handleResponse($result['login'], 'Success');
+        }
     }
 
     public function logout($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
@@ -47,7 +52,7 @@ final class Authentication
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                $client = ClientBuilder::build('http://10.0.1.134/graphql');
+                $client = ClientBuilder::build('http://127.0.0.1:8001/graphql');
 
                 $query = '
                 mutation logout($token: String!){
