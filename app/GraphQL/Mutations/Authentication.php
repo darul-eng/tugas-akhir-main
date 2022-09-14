@@ -20,7 +20,7 @@ final class Authentication
 
     public function login($_, array $args): String
     {
-        $client = ClientBuilder::build('http://10.0.1.134/graphql');
+        $client = ClientBuilder::build('http://10.0.0.108/graphql');
 
         $query = '
         mutation login($email: String!, $password: String!){
@@ -51,7 +51,7 @@ final class Authentication
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                $client = ClientBuilder::build('http://10.0.1.134/graphql');
+                $client = ClientBuilder::build('http://10.0.0.108/graphql');
 
                 $query = '
                 mutation logout($token: String!){

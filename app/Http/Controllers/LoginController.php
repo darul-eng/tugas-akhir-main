@@ -17,7 +17,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $response = Http::post('http://10.0.1.134/api/login', [
+        $response = Http::post('http://10.0.0.108/api/login', [
             'email' => $request->email,
             'password' => $request->password,
         ]);
@@ -32,7 +32,7 @@ class LoginController extends Controller
             $valid = $this->authSister->verifyTokenRest($token[1]);
 
             if ($valid) {
-                $response = Http::post('http://10.0.1.134/api/logout', [
+                $response = Http::post('http://10.0.0.108/api/logout', [
                     'token' => $token[1],
                 ]);
 
