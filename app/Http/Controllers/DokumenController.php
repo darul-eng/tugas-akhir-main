@@ -6,6 +6,7 @@ use App\Models\Dokumen;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Repositories\AuthSister;
+use Illuminate\Support\Facades\Storage;
 
 class DokumenController extends Controller
 {
@@ -40,10 +41,10 @@ class DokumenController extends Controller
             $valid = $this->authSister->verifyTokenRest($token[1]);
 
             if ($valid) {
-                $file = $request->file;
+                $fileName = $request->file->hashName();
+                $path = 'storage/rest/'. $fileName;
 
-                $path = $file->storePublicly('public/rest');
-                $path = str_replace('public', 'storage', $path);
+                Storage::disk('public')->put('rest/' . $fileName, file_get_contents($request->file('file')));
                 Dokumen::create([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $id_sdm,

@@ -15,7 +15,7 @@ type Query {
     dokumen(id_sdm: String!): [Dokumen] @field(resolver: "\\App\\GraphQL\\Mutations\\Dokumen@byIDSdm")
 }
 
-type Mutation {
+type Mutation{
     uploadDokumen(file: Upload!, id_sdm: String!): String @field(resolver: "Dokumen@uploadDokumen")
 }
 
