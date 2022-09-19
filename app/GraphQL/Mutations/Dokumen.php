@@ -3,13 +3,14 @@
 namespace App\GraphQL\Mutations;
 
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\Dokumen as Model;
 use App\Repositories\AuthSister;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Illuminate\Http\Request;
 
 final class Dokumen
 {
@@ -28,7 +29,8 @@ final class Dokumen
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                $dokumen = Model::all();
+                $dokumen = DB::table('dokumens')->get();
+                // $dokumen = Model::all();
                 return $dokumen;
             } else {
                 return throw new HttpException(401, 'Unauthorize');
@@ -46,7 +48,8 @@ final class Dokumen
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                $dokumen = Model::where('id_sdm', $args['id_sdm'])->get();
+                $dokumen = DB::table('dokumens')->where('id_sdm', '=', $args['id_sdm'])->get();
+                // $dokumen = Model::where('id_sdm', $args['id_sdm'])->get();
                 return $dokumen;
             } else {
                 return throw new HttpException(401, 'Unauthorize');
@@ -101,11 +104,16 @@ final class Dokumen
                 $path = 'storage/graphql/' . $fileName;
 
                 Storage::disk('public')->put('graphql/' . $fileName, file_get_contents($args['file']));
-                Model::create([
+                DB::table('dokumens')->insert([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $args['id_sdm'],
                     'dokumen' => $path
                 ]);
+                // Model::create([
+                //     'id_dokumen' => Str::uuid(),
+                //     'id_sdm' => $args['id_sdm'],
+                //     'dokumen' => $path
+                // ]);
 
                 return $path;
             } else {

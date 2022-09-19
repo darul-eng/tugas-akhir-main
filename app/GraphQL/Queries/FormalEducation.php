@@ -2,12 +2,13 @@
 
 namespace App\GraphQL\Queries;
 
-use GraphQL\Type\Definition\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-
-use App\Models\FormalEducation as ModelsFormalEducation;
 use App\Repositories\AuthSister;
+use Illuminate\Support\Facades\DB;
+use GraphQL\Type\Definition\ResolveInfo;
+
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Models\FormalEducation as ModelsFormalEducation;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 final class FormalEducation
 {
@@ -26,7 +27,8 @@ final class FormalEducation
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                return ModelsFormalEducation::all();
+                // return ModelsFormalEducation::all();
+                return DB::table('formal_education')->get();
             } else {
                 return throw new HttpException(401, 'Unauthorize');
             }
@@ -43,7 +45,8 @@ final class FormalEducation
             $valid = $this->authSister->verifyToken($arrToken[1]);
 
             if ($valid) {
-                return ModelsFormalEducation::where('id_sdm', $args['id_sdm'])->get();
+                // return ModelsFormalEducation::where('id_sdm', $args['id_sdm'])->get();
+                return DB::table('formal_education')->where('id_sdm', '=', $args['id_sdm'])->get();
             } else {
                 return throw new HttpException(401, 'Unauthorize');
             }

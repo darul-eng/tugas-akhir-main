@@ -9,7 +9,7 @@ class AuthSister
 {
     public function verifyToken(string $token)
     {
-        $client = ClientBuilder::build('http://10.0.0.108/graphql');
+        $client = ClientBuilder::build('http://127.0.0.1:8001/graphql');
 
         $query = '
         mutation verify($token: String!){
@@ -23,8 +23,6 @@ class AuthSister
 
         $response = $client->query($query, $variables);
 
-        // dd($response);
-
         $result = $response->getData();
 
         return $result['verify'];
@@ -32,7 +30,7 @@ class AuthSister
 
     public function verifyTokenRest(string $token)
     {
-        $response = Http::post('http://10.0.0.108/api/verify', [
+        $response = Http::post('http://127.0.0.1:8001/api/verify', [
             'token' => $token,
         ]);
 
