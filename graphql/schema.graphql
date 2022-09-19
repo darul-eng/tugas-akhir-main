@@ -20,6 +20,7 @@ type Mutation{
 }
 
 type HumanResource {
+    id: ID
     id_sdm: String
     nama_sdm: String
     nidn: String
@@ -27,11 +28,14 @@ type HumanResource {
     nama_status_aktif: String
     nama_status_pegawai: String
     jenis_sdm: String
+    created_at: String,
+    updated_at: String,
     pendidikan_formal: [FormalEducation] @hasMany
     dokumen: [Dokumen] @hasMany
 }
 
 type FormalEducation {
+    id: ID
     id_sdm: String
     id_pendidikan: String
     jenjang_pendidikan: String
@@ -39,12 +43,17 @@ type FormalEducation {
     bidang_studi: String
     nama_perguruan_tinggi: String
     tahun_lulus: Int
+    created_at: String,
+    updated_at: String
 }
 
 type Dokumen {
+    id: ID
     id_sdm: String
     id_dokumen: String
     dokumen: String
+    created_at: String
+    updated_at: String
 }
 
 type User {

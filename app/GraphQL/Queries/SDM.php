@@ -2,12 +2,13 @@
 
 namespace App\GraphQL\Queries;
 
+use App\Models\HumanResource;
+use App\Repositories\AuthSister;
+use Illuminate\Support\Facades\DB;
+
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-
-use App\Models\HumanResource;
-use App\Repositories\AuthSister;
 
 final class SDM
 {
@@ -27,6 +28,7 @@ final class SDM
 
             if ($valid) {
                 return HumanResource::all();
+                // return DB::table('human_resources')->get();
             } else {
                 return throw new HttpException(401, 'Unauthorize');
             }
@@ -44,6 +46,7 @@ final class SDM
 
             if ($valid) {
                 return HumanResource::where('id_sdm', $args['id_sdm'])->first();
+                // return DB::table('human_resources')->where('id_sdm', $args['id_sdm'])->first();
             } else {
                 return throw new HttpException(401, 'Unauthorize');
             }

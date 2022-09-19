@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HumanResource;
 use Illuminate\Http\Request;
+use App\Models\HumanResource;
 use App\Repositories\AuthSister;
+use Illuminate\Support\Facades\DB;
 
 class HumanResourceController extends Controller
 {
@@ -22,7 +23,9 @@ class HumanResourceController extends Controller
             $valid = $this->authSister->verifyTokenRest($token[1]);
 
             if ($valid) {
-                $humanResources = HumanResource::all();
+                // $humanResources = HumanResource::with(['pendidikan_formal', 'dokumen'])->get();
+                // $humanResources = DB::table('human_resources')->join('formal_education', 'human_resources.id_sdm', '=', 'formal_education.id_sdm')->get();
+                $humanResources = DB::table('human_resources')->get();
                 return handleResponse($humanResources, 'success');
             }else{
                 return handleError('Unauthorized', [], 401);
@@ -40,7 +43,8 @@ class HumanResourceController extends Controller
             $valid = $this->authSister->verifyTokenRest($token[1]);
 
             if ($valid) {
-                $humanResources = HumanResource::where('id_sdm', $id_sdm)->first();
+                // $humanResources = HumanResource::where('id_sdm', $id_sdm)->first();
+                $humanResources = DB::table('human_resources')->where('id_sdm', '=', $id_sdm)->first();
                 return handleResponse($humanResources, 'success');
             } else {
                 return handleError('Unauthorized', [], 401);
