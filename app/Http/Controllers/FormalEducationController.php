@@ -42,7 +42,7 @@ class FormalEducationController extends Controller
 
             if ($valid) {
                 // $humanResources = FormalEducation::where('id_sdm', $id_sdm)->get();
-                $formalEducations = DB::table('formal_education')->where('id_sdm', '=', $id_sdm)->first();
+                $formalEducations = DB::table('formal_education')->where('id_sdm', '=', $id_sdm)->get();
                 return handleResponse($formalEducations, 'success');
             } else {
                 return handleError('Unauthorized', [], 401);
