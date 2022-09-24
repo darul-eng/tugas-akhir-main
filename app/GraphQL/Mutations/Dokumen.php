@@ -107,7 +107,7 @@ final class Dokumen
                 DB::table('dokumens')->insert([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $args['id_sdm'],
-                    'dokumen' => $path
+                    'tautan' => $path
                 ]);
                 // Model::create([
                 //     'id_dokumen' => Str::uuid(),

@@ -17,7 +17,14 @@ return new class extends Migration
             $table->id();
             $table->uuid('id_dokumen')->unique();
             $table->foreignUuid('id_sdm');
-            $table->string('dokumen');
+            $table->integer('id_jenis_dokumen')->nullable();
+            $table->string('jenis_dokumen')->nullable();
+            $table->string('nama')->nullable();
+            $table->string('keterangan')->nullable();
+            $table->string('tautan')->nullable();
+            $table->date('tanggal_upload')->nullable();
+            $table->string('nama_file')->nullable();
+            $table->string('jenis_file')->nullable();
             $table->timestamps();
         });
     }
