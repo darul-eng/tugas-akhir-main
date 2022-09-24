@@ -51,7 +51,14 @@ type Dokumen {
     id: ID
     id_sdm: String
     id_dokumen: String
-    dokumen: String
+    tautan: String
+    id_jenis_dokumen: Int
+    jenis_dokumen: String
+    nama: String
+    keterangan: String
+    tanggal_upload: String
+    nama_file: String
+    jenis_file: String
     created_at: String
     updated_at: String
 }
