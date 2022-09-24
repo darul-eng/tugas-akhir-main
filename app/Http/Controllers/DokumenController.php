@@ -50,7 +50,7 @@ class DokumenController extends Controller
                 DB::table('dokumens')->insert([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $id_sdm,
-                    'dokumen' => $path
+                    'tautan' => $path
                 ]);
                 // Dokumen::create([
                 //     'id_dokumen' => Str::uuid(),
