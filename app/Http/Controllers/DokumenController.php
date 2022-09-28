@@ -18,7 +18,7 @@ class DokumenController extends Controller
         $this->authSister = new AuthSister;
     }
 
-    public function getByIDSdm(Request $request)
+    public function getByIDSdm(Request $request, $id_sdm)
     {
         if ($request->header('Authorization') != null) {
             $token = explode(' ', $request->header('Authorization'));
@@ -26,7 +26,7 @@ class DokumenController extends Controller
 
             if ($valid) {
                 // $dokumens = Dokumen::where('id_sdm', $request->id_sdm)->get();
-                $dokumens = DB::table('dokumens')->get();
+                $dokumens = DB::table('dokumens')->where('id_sdm', '=', $id_sdm)->get();
                 return handleResponse($dokumens, 'success');
             } else {
                 return handleError('Unauthorized', [], 401);
