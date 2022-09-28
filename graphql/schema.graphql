@@ -4,19 +4,31 @@ scalar Upload
 
 type Query {
     sumberDayaManusia: [HumanResource] @field(resolver: "SDM@sumberDayaManusia")
-    sumberDayaManusiaByID(id_sdm: String!): HumanResource
-        @field(resolver: "SDM@sdmByID")
+    sumberDayaManusiaByID(
+        id_sdm: String!
+    ): HumanResource @field(resolver: "SDM@sdmByID")
 
     pendidikanFormals: [FormalEducation] @field(resolver: "FormalEducation@all")
-    pendidikanFormal(id_sdm: String!): [FormalEducation]
-        @field(resolver: "FormalEducation@byID")
+    pendidikanFormal(
+        id_sdm: String!
+    ): [FormalEducation] @field(resolver: "FormalEducation@byID")
 
     dokumens: [Dokumen] @field(resolver: "\\App\\GraphQL\\Mutations\\Dokumen@all")
-    dokumen(id_sdm: String!): [Dokumen] @field(resolver: "\\App\\GraphQL\\Mutations\\Dokumen@byIDSdm")
+    dokumen(
+        id_sdm: String!
+    ): [Dokumen] @field(resolver: "\\App\\GraphQL\\Mutations\\Dokumen@byIDSdm")
 }
 
 type Mutation{
-    uploadDokumen(file: Upload!, id_sdm: String!): String @field(resolver: "Dokumen@uploadDokumen")
+    uploadDokumen(
+        file: Upload!,
+        id_sdm: String!,
+        tautan: String,
+        id_jenis_dokumen: Int,
+        jenis_dokumen: String,
+        nama: String,
+        keterangan: String,
+    ): String @field(resolver: "Dokumen@uploadDokumen")
 }
 
 type HumanResource {
