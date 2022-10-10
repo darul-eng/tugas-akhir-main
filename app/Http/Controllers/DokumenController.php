@@ -25,8 +25,8 @@ class DokumenController extends Controller
             $valid = $this->authSister->verifyTokenRest($token[1]);
 
             if ($valid) {
-                $dokumens = Dokumen::where('id_sdm', $request->id_sdm)->get();
-                // $dokumens = DB::table('dokumens')->where('id_sdm', '=', $id_sdm)->get();
+                // $dokumens = Dokumen::where('id_sdm', $request->id_sdm)->get();
+                $dokumens = DB::table('dokumens')->where('id_sdm', '=', $id_sdm)->get();
                 return handleResponse($dokumens, 'success');
             } else {
                 return handleError('Unauthorized', [], 401);
@@ -68,16 +68,7 @@ class DokumenController extends Controller
                 }
 
                 Storage::disk('public')->put('rest/' . $fileName, file_get_contents($request->file('file')));
-                // DB::table('dokumens')->insert([
-                //     'id_dokumen' => Str::uuid(),
-                //     'id_sdm' => $id_sdm,
-                //     'tautan' => $path,
-                //     'id_jenis_dokumen' => $id_jenis_dokumen,
-                //     'jenis_dokumen' => $jenis_dokumen,
-                //     'nama' => $nama,
-                //     'keterangan' => $keterangan
-                // ]);
-                Dokumen::create([
+                DB::table('dokumens')->insert([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $id_sdm,
                     'tautan' => $path,
@@ -86,6 +77,11 @@ class DokumenController extends Controller
                     'nama' => $nama,
                     'keterangan' => $keterangan
                 ]);
+                // Dokumen::create([
+                //     'id_dokumen' => Str::uuid(),
+                //     'id_sdm' => $id_sdm,
+                //     'dokumen' => $path,
+                // ]);
 
                 return handleResponse(['path' => $path], 'success');
             } else {
