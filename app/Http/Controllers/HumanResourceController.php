@@ -23,9 +23,8 @@ class HumanResourceController extends Controller
             $valid = $this->authSister->verifyTokenRest($token[1]);
 
             if ($valid) {
-                // $humanResources = HumanResource::with(['pendidikan_formal', 'dokumen'])->get();
-                // $humanResources = DB::table('human_resources')->join('formal_education', 'human_resources.id_sdm', '=', 'formal_education.id_sdm')->get();
-                $humanResources = DB::table('human_resources')->get();
+                $humanResources = HumanResource::all();
+                // $humanResources = DB::table('human_resources')->get();
                 return handleResponse($humanResources, 'success');
             }else{
                 return handleError('Unauthorized', [], 401);
