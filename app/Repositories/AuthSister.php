@@ -35,8 +35,9 @@ class AuthSister
         ]);
 
 
-        $result = $response->json();
-
-        return $result['verify'];
+        if ($response->status() == 200) {
+            $result = $response->json();
+            return $result['verify'];
+        }
     }
 }
