@@ -43,7 +43,7 @@ class DokumenController extends Controller
             $valid = $this->authSister->verifyTokenRest($token[1]);
 
             if ($valid) {
-                $fileName = $request->file->hashName();
+                $fileName = $request->file('file')->getClientOriginalName();
                 $path = 'storage/rest/'. $fileName;
 
                 $id_jenis_dokumen = 0;
@@ -67,7 +67,7 @@ class DokumenController extends Controller
                     $keterangan = $request->keterangan;
                 }
 
-                Storage::disk('public')->put('rest/' . $fileName, file_get_contents($request->file('file')));
+                Storage::disk('public')->put('rest/' . $fileName, file_get_contents($request->file('file')->getRealPath()));
                 DB::table('dokumens')->insert([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $id_sdm,
