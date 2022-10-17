@@ -100,8 +100,8 @@ final class Dokumen
             $valid = $this->authSister->verifyToken($token);
 
             if ($valid) {
-                $fileName = $args['file']->hashName();
-                $path = 'storage/graphql/' . $fileName;
+                $fileName = $args['file'];
+                $path = 'storage/graphql/' . $fileName->getClientOriginalName();
 
                 $id_jenis_dokumen = 0;
                 $jenis_dokumen = '';
@@ -123,7 +123,7 @@ final class Dokumen
                 if (array_key_exists('keterangan', $args)) {
                     $keterangan = $args['keterangan'];
                 }
-                Storage::disk('public')->put('graphql/' . $fileName, file_get_contents($args['file']));
+                Storage::disk('public')->put('graphql/' . $fileName->getClientOriginalName(), file_get_contents($args['file']));
                 DB::table('dokumens')->insert([
                     'id_dokumen' => Str::uuid(),
                     'id_sdm' => $args['id_sdm'],
